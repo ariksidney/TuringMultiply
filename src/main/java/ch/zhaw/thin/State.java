@@ -5,13 +5,13 @@ package ch.zhaw.thin;
  */
 public class State {
 
-    private int state;
-    private boolean read;
-    private boolean write;
-    private String moveDirection;
-    private int nextState;
+    private final int state;
+    private final boolean read;
+    private final boolean write;
+    private final Step moveDirection;
+    private final int nextState;
 
-    public State(int state, boolean read, boolean write, String moveDirection, int nextState) {
+    public State(int state, boolean read, boolean write, Step moveDirection, int nextState) {
         this.state = state;
         this.read = read;
         this.write = write;
@@ -23,39 +23,19 @@ public class State {
         return state;
     }
 
-    public void setState(int state) {
-        this.state = state;
-    }
-
     public boolean isRead() {
         return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
     }
 
     public boolean isWrite() {
         return write;
     }
 
-    public void setWrite(boolean write) {
-        this.write = write;
-    }
-
-    public String getMoveDirection() {
+    public Step getMoveDirection() {
         return moveDirection;
-    }
-
-    public void setMoveDirection(String moveDirection) {
-        this.moveDirection = moveDirection;
     }
 
     public int getNextState() {
         return nextState;
-    }
-
-    public void setNextState(int nextState) {
-        this.nextState = nextState;
     }
 }
