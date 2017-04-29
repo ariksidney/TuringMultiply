@@ -21,7 +21,7 @@ public class Main {
             }
         }
         Band band = new Band(input.get(0)+ " " + input.get(1));
-        TM tm = new TM(band);
+        TM tm = new TM(band, false);
         tm.run();
     }
 }

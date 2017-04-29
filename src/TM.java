@@ -7,10 +7,12 @@ public class TM {
 
     private State[] stateTable;
     private Band band;
+    private boolean stepMode = false;
 
-    public TM(Band band) {
+    public TM(Band band, boolean stepMode) {
         this.stateTable = createStateTable();
         this.band = band;
+        this.stepMode = stepMode;
     }
 
     public void run() {
@@ -24,7 +26,7 @@ public class TM {
                 State s = stateTable[i];
                 if (s.getState() == next) {
                     if ((current == '*' & s.isRead()) || (current == ' ' & !s.isRead())) {
-
+                        printStep();
                         band = moveHead(s, band);
 
                         if(s.getNextState() == -1) {
@@ -53,6 +55,11 @@ public class TM {
             band.moveLeft();
         }
         return band;
+    }
+
+    private void printStep() {
+        System.out.println(band.toString());
+        System.out.println(String.format("%15s", "^"));
     }
 
     private void printResult(Band band, State state, int cnt) {

@@ -41,6 +41,8 @@ public class Band {
         band.set(pointer, '*');
     }
 
+    public int getPointer() { return pointer; }
+
     private ArrayList<Character> prepareBand(String in) {
         ArrayList<Character> b = new ArrayList<>();
         in = in + " ";
