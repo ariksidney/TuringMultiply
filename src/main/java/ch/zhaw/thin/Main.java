@@ -1,3 +1,5 @@
+package ch.zhaw.thin;
+
 import java.util.ArrayList;
 
 /**

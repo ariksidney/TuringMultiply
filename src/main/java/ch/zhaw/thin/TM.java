@@ -1,4 +1,4 @@
-import javax.sound.midi.Soundbank;
+package ch.zhaw.thin;
 
 /**
  * Created by ariksidney on 28.04.17.
