@@ -28,7 +28,7 @@ public class TuringMachine {
                 State s = stateTable[i];
                 if (s.getState() == next) {
                     if ((current == '*' && s.isRead()) || (current == ' ' && !s.isRead())) {
-                        printStep();
+                        printStep(band.getPointer());
                         band = moveHead(s, band);
 
                         if (s.getNextState() == -1) {
@@ -59,9 +59,9 @@ public class TuringMachine {
         return band;
     }
 
-    private void printStep() {
+    private void printStep(int pointer) {
         System.out.println(band.toString());
-        System.out.println(String.format("%15s", "^"));
+        System.out.println(String.format("%" + (15 + pointer) + "s", "^"));
     }
 
     private void printResult(Band band, State state, int cnt) {
