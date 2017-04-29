@@ -10,11 +10,17 @@ public class TuringMachine {
     private State[] stateTable;
     private Band band;
     private boolean stepMode = false;
+    private final Console console;
 
     public TuringMachine(Band band, boolean stepMode) {
+        this(band, stepMode, null);
+    }
+
+    public TuringMachine(Band band, boolean stepMode, Console console) {
         this.stateTable = createStateTable();
         this.band = band;
         this.stepMode = stepMode;
+        this.console = console;
     }
 
     public void run() {
@@ -30,11 +36,7 @@ public class TuringMachine {
                     if ((current == '*' && s.isRead()) || (current == ' ' && !s.isRead())) {
                         if (stepMode) {
                             printStep(band.getPointer());
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            console.waitForInput();
                         }
                         band = moveHead(s, band);
 
