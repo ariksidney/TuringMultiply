@@ -23,7 +23,7 @@ public class Main {
             }
         }
         Band band = new Band(input.get(0)+ " " + input.get(1));
-        TuringMachine tm = new TuringMachine(band, false);
+        TuringMachine tm = new TuringMachine(band, true);
         tm.run();
     }
 }

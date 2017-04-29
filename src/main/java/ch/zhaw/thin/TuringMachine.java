@@ -28,7 +28,14 @@ public class TuringMachine {
                 State s = stateTable[i];
                 if (s.getState() == next) {
                     if ((current == '*' && s.isRead()) || (current == ' ' && !s.isRead())) {
-                        printStep(band.getPointer());
+                        if (stepMode) {
+                            printStep(band.getPointer());
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         band = moveHead(s, band);
 
                         if (s.getNextState() == -1) {
