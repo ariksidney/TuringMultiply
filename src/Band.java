@@ -58,7 +58,8 @@ public class Band {
         }
         String result = builder.toString().trim();
         int len = result.length();
-        return result + " (" + len + ")";
+        String spaces =  String.format("%15s", "");
+        return spaces + result + spaces + " (" + len + ")";
     }
 
 }

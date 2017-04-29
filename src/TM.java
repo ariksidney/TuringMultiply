@@ -1,3 +1,5 @@
+import javax.sound.midi.Soundbank;
+
 /**
  * Created by ariksidney on 28.04.17.
  */
@@ -27,7 +29,7 @@ public class TM {
 
                         if(s.getNextState() == -1) {
                             finished = true;
-                            System.out.println(band.toString());
+                            printResult(band, s, cnt);
                         }
 
                         next = s.getNextState();
@@ -37,7 +39,6 @@ public class TM {
                 }
             }
         }
-        System.out.println("Calculated after " + cnt + " steps");
     }
 
     private Band moveHead(State s, Band band) {
@@ -52,6 +53,12 @@ public class TM {
             band.moveLeft();
         }
         return band;
+    }
+
+    private void printResult(Band band, State state, int cnt) {
+        System.out.println(band.toString());
+        System.out.println("Stopped at state: " + state.getState());
+        System.out.println("Calculated after " + cnt + " steps");
     }
 
     private State[] createStateTable() {
