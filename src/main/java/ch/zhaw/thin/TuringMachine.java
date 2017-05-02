@@ -1,6 +1,7 @@
 package ch.zhaw.thin;
 
 import ch.zhaw.thin.state.State;
+import ch.zhaw.thin.state.StateIndex;
 import ch.zhaw.thin.state.StateTable;
 import ch.zhaw.thin.state.Step;
 
@@ -11,7 +12,7 @@ import static ch.zhaw.thin.state.Step.*;
  */
 public class TuringMachine {
 
-    private static final State[] STATES = StateTable.MULTIPLY.getStates();
+    private final StateIndex stateIndex = new StateIndex(StateTable.MULTIPLY);
 
     private final Band band;
     private final boolean stepMode;
@@ -39,31 +40,31 @@ public class TuringMachine {
         boolean finished = false;
         int cnt = 1;
         while (!finished) {
-            char current;
-            current = band.getCurrentPosition();
-            for (int i = 0; i < STATES.length; i++) {
-                State state = STATES[i];
-                if (state.getId() == next) {
-                    if ((current == '*' && state.isRead()) || (current == ' ' && !state.isRead())) {
-                        if (stepMode) {
-                            printStep();
-                            console.waitForInput();
-                        }
-                        moveHead(state);
 
-                        if (state.getNextState() == -1) {
-                            finished = true;
-                            printResult(state, cnt);
-                        }
+            char current = band.getCurrentPosition();
+            State state = stateIndex.get(next, shouldRead(current));
 
-                        next = state.getNextState();
-                        cnt++;
-                        break;
-                    }
-                }
+
+            if (stepMode) {
+                printStep();
+                console.waitForInput();
             }
+
+            moveHead(state);
+
+            if (state.isEndState()) {
+                finished = true;
+                printResult(state, cnt);
+            }
+
+            next = state.getNextState();
+            cnt++;
         }
         return band.toRawString();
+    }
+
+    private boolean shouldRead(char current) {
+        return current == '*';
     }
 
     private void moveHead(State state) {
