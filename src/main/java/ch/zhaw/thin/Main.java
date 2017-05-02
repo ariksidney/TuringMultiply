@@ -3,7 +3,7 @@ package ch.zhaw.thin;
 import java.util.ArrayList;
 
 /**
- * Created by ariksidney on 28.04.17.
+ * @author Arik, Simon
  */
 public class Main {
 

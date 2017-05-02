@@ -1,120 +1,100 @@
 package ch.zhaw.thin;
 
-import static ch.zhaw.thin.Step.*;
+import ch.zhaw.thin.state.State;
+import ch.zhaw.thin.state.StateTable;
+import ch.zhaw.thin.state.Step;
+
+import static ch.zhaw.thin.state.Step.*;
 
 /**
- * Created by ariksidney on 28.04.17.
+ * @author Arik, Simon
  */
 public class TuringMachine {
 
-    private State[] stateTable;
-    private Band band;
-    private boolean stepMode = false;
+    private static final State[] STATES = StateTable.MULTIPLY.getStates();
+
+    private final Band band;
+    private final boolean stepMode;
     private final Console console;
+
+    public TuringMachine(Band band) {
+        this(band, false, null);
+    }
 
     public TuringMachine(Band band, boolean stepMode) {
         this(band, stepMode, null);
     }
 
     public TuringMachine(Band band, boolean stepMode, Console console) {
-        this.stateTable = createStateTable();
         this.band = band;
         this.stepMode = stepMode;
         this.console = console;
     }
 
-    public void run() {
+    /**
+     * @return result
+     */
+    public String run() {
         int next = 0;
         boolean finished = false;
         int cnt = 1;
         while (!finished) {
             char current;
             current = band.getCurrentPosition();
-            for (int i = 0; i < stateTable.length; i++) {
-                State s = stateTable[i];
-                if (s.getState() == next) {
-                    if ((current == '*' && s.isRead()) || (current == ' ' && !s.isRead())) {
+            for (int i = 0; i < STATES.length; i++) {
+                State state = STATES[i];
+                if (state.getId() == next) {
+                    if ((current == '*' && state.isRead()) || (current == ' ' && !state.isRead())) {
                         if (stepMode) {
-                            printStep(band.getPointer());
+                            printStep();
                             console.waitForInput();
                         }
-                        band = moveHead(s, band);
+                        moveHead(state);
 
-                        if (s.getNextState() == -1) {
+                        if (state.getNextState() == -1) {
                             finished = true;
-                            printResult(band, s, cnt);
+                            printResult(state, cnt);
                         }
 
-                        next = s.getNextState();
+                        next = state.getNextState();
                         cnt++;
                         break;
                     }
                 }
             }
         }
+        return band.toRawString();
     }
 
-    private Band moveHead(State s, Band band) {
-        if (s.isWrite()) {
+    private void moveHead(State state) {
+        modify(state.isWrite());
+        move(state.getMoveDirection());
+    }
+
+    private void modify(boolean write) {
+        if (write) {
             band.writeToCurrentPosition();
         } else {
             band.deleteCurrentPosition();
         }
-        if (s.getMoveDirection() == R) {
+    }
+
+    private void move(Step step) {
+        if (step == R) {
             band.moveRight();
-        } else if (s.getMoveDirection() == L) {
+        } else if (step == L) {
             band.moveLeft();
         }
-        return band;
     }
 
-    private void printStep(int pointer) {
+    private void printStep() {
         System.out.println(band.toString());
-        System.out.println(String.format("%" + (15 + pointer) + "s", "^"));
+        System.out.println(String.format("%" + (15 + band.getPointer()) + "s", "^"));
     }
 
-    private void printResult(Band band, State state, int cnt) {
+    private void printResult(State state, int cnt) {
         System.out.println(band.toString());
-        System.out.println("Stopped at state: " + state.getState());
+        System.out.println("Stopped at state: " + state.getId());
         System.out.println("Calculated after " + cnt + " steps");
-    }
-
-    private State[] createStateTable() {
-        return new State[]{
-                new State(0, false, false, R, 1),
-                new State(0, true, false, R, 2),
-                new State(1, false, false, R, 14),
-                new State(1, true, false, R, 2),
-                new State(2, false, false, R, 3),
-                new State(2, true, true, R, 2),
-                new State(3, false, false, L, 15),
-                new State(3, true, false, R, 4),
-                new State(4, false, false, R, 5),
-                new State(4, true, true, R, 4),
-                new State(5, false, true, L, 6),
-                new State(5, true, true, R, 5),
-                new State(6, false, false, L, 7),
-                new State(6, true, true, L, 6),
-                new State(7, false, true, L, 9),
-                new State(7, true, true, L, 8),
-                new State(8, false, true, R, 3),
-                new State(8, true, true, L, 8),
-                new State(9, false, false, L, 10),
-                new State(9, true, true, L, 9),
-                new State(10, false, false, R, 12),
-                new State(10, true, true, L, 11),
-                new State(11, false, false, R, 0),
-                new State(11, true, true, L, 11),
-                new State(12, false, false, R, 12),
-                new State(12, true, false, R, 13),
-                new State(13, false, false, N, -1),
-                new State(13, true, false, R, 13),
-                new State(14, false, false, N, -1),
-                new State(14, true, false, R, 14),
-                new State(15, false, false, L, 16),
-                new State(15, true, false, L, 15),
-                new State(16, false, false, N, -1),
-                new State(16, true, false, L, 16),
-        };
     }
 }

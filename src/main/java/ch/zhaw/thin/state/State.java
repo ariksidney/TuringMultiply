@@ -1,26 +1,26 @@
-package ch.zhaw.thin;
+package ch.zhaw.thin.state;
 
 /**
- * Created by ariksidney on 28.04.17.
+ * @author Arik, Simon
  */
 public class State {
 
-    private final int state;
+    private final int id;
     private final boolean read;
     private final boolean write;
     private final Step moveDirection;
     private final int nextState;
 
-    public State(int state, boolean read, boolean write, Step moveDirection, int nextState) {
-        this.state = state;
+    public State(int id, boolean read, boolean write, Step moveDirection, int nextState) {
+        this.id = id;
         this.read = read;
         this.write = write;
         this.moveDirection = moveDirection;
         this.nextState = nextState;
     }
 
-    public int getState() {
-        return state;
+    public int getId() {
+        return id;
     }
 
     public boolean isRead() {

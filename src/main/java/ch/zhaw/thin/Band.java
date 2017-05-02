@@ -3,14 +3,12 @@ package ch.zhaw.thin;
 import java.util.ArrayList;
 
 /**
- * Created by ariksidney on 28.04.17.
+ * @author Arik, Simon
  */
 public class Band {
 
-    private String input;
     private ArrayList<Character> band;
     private int pointer = 0;
-    private String output;
 
     public Band(String input){
         band = prepareBand(input);
@@ -54,13 +52,17 @@ public class Band {
         return b;
     }
 
-    @Override
-    public String toString() {
+    public String toRawString() {
         StringBuilder builder = new StringBuilder();
         for (char c : band) {
             builder.append(c);
         }
-        String result = builder.toString().trim();
+        return builder.toString().trim();
+    }
+
+    @Override
+    public String toString() {
+        String result = toRawString();
         int len = result.length();
         String spaces =  String.format("%15s", "");
         return spaces + result + spaces + " (" + len + ")";

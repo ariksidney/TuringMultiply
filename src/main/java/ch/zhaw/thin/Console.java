@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 /**
  * Prompt for input
+ *
+ * @author Arik, Simon
  */
 public class Console {
 
