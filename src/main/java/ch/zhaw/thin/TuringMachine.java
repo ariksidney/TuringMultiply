@@ -1,5 +1,6 @@
 package ch.zhaw.thin;
 
+import ch.zhaw.thin.band.Band;
 import ch.zhaw.thin.state.State;
 import ch.zhaw.thin.state.StateIndex;
 import ch.zhaw.thin.state.StateTable;
@@ -95,7 +96,6 @@ public class TuringMachine {
 
     private void printStep() {
         System.out.println(band.toString());
-        System.out.println(String.format("%" + (15 + band.getPointer()) + "s", "^"));
     }
 
     private void printResult(State state, int cnt) {

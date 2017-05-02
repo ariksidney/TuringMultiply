@@ -1,6 +1,8 @@
 package ch.zhaw.thin;
 
 
+import ch.zhaw.thin.band.Band;
+
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -37,7 +39,7 @@ public class Console {
 
     private boolean readIsStepMode() {
         writer.printf("%s", "Step mode [y/n]?: ");
-        return "y".equals(scanner.next());
+        return "y".equals(scanner.nextLine());
     }
 
     private void close() {

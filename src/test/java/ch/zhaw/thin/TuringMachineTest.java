@@ -1,8 +1,11 @@
 package ch.zhaw.thin;
 
+import ch.zhaw.thin.band.Band;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+
+import static ch.zhaw.thin.band.BandUtil.*;
 
 /**
  * @author Arik, Simon
@@ -35,17 +38,5 @@ public class TuringMachineTest {
         String result = tm.run();
         assertEquals("Calc wrong for 1*0", "", result);
         assertEquals("Step count has changed", 5, tm.getStepCount());
-    }
-
-    private static String stars(int c1, int c2) {
-        return stars(c1) + ' ' + stars(c2);
-    }
-
-    private static String stars(int count) {
-        char[] chars = new char[count];
-        for (int i = 0; i < count; i++) {
-            chars[i] = '*';
-        }
-        return String.copyValueOf(chars);
     }
 }

@@ -1,5 +1,7 @@
 package ch.zhaw.thin;
 
+import ch.zhaw.thin.band.Band;
+
 import java.util.ArrayList;
 
 /**

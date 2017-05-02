@@ -1,14 +1,16 @@
-package ch.zhaw.thin;
+package ch.zhaw.thin.band;
 
 import gnu.trove.list.TCharList;
 import gnu.trove.list.array.TCharArrayList;
+
+import static ch.zhaw.thin.band.BandUtil.*;
 
 /**
  * @author Arik, Simon
  */
 public class Band {
 
-    private static final String SPACES = String.format("%15s", "");
+    private static final String SPACES = spaces(15);
 
     private final TCharList charList;
     private int pointer = 0;
@@ -24,7 +26,7 @@ public class Band {
     public void moveRight() {
         ++pointer;
         if (charList.size() == pointer) {
-            charList.add(' ');
+            charList.add(BandSymbol.space());
         }
     }
 
@@ -33,11 +35,11 @@ public class Band {
     }
 
     public void deleteCurrentPosition() {
-        charList.set(pointer, ' ');
+        charList.set(pointer, BandSymbol.space());
     }
 
     public void writeToCurrentPosition() {
-        charList.set(pointer, '*');
+        charList.set(pointer, BandSymbol.star());
     }
 
     public int getPointer() {
@@ -51,6 +53,7 @@ public class Band {
     @Override
     public String toString() {
         String result = toRawString();
-        return SPACES + result + SPACES + " (" + result.length() + ")";
+        String readerHead = head(pointer);
+        return SPACES + result + SPACES + " (" + result.length() + ")\n" + SPACES + readerHead;
     }
 }
