@@ -17,14 +17,26 @@ public class Console {
     private final PrintWriter writer = new PrintWriter(System.out, true);
 
     public static void main(String[] args) {
+        // init resources
         Console console = new Console();
-        String input = console.readBand();
-        boolean stepMode = console.readIsStepMode();
 
+        // read band content
+        String input = console.readBand();
+
+        // set run or step mode
+        boolean stepMode = console.readIsStepMode();
+        if (stepMode) {
+            Mode.setStepMode();
+        } else {
+            Mode.setRunMode(console.readIsVerboseMode());
+        }
+
+        // init turing machine
         Band band = new Band(input);
-        TuringMachine tm = new TuringMachine(band, stepMode, console);
+        TuringMachine tm = new TuringMachine(band, console);
         tm.run();
 
+        // close resources
         console.close();
     }
 
@@ -39,6 +51,11 @@ public class Console {
 
     private boolean readIsStepMode() {
         writer.printf("%s", "Step mode [y/n]?: ");
+        return "y".equals(scanner.nextLine());
+    }
+
+    private boolean readIsVerboseMode() {
+        writer.printf("%s", "Verbose mode [y/n]?: ");
         return "y".equals(scanner.nextLine());
     }
 

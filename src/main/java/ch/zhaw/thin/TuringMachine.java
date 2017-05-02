@@ -1,42 +1,38 @@
 package ch.zhaw.thin;
 
 import ch.zhaw.thin.band.Band;
+import ch.zhaw.thin.band.BandSymbol;
 import ch.zhaw.thin.state.State;
 import ch.zhaw.thin.state.StateIndex;
 import ch.zhaw.thin.state.StateTable;
 import ch.zhaw.thin.state.Step;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static ch.zhaw.thin.state.Step.*;
+import static ch.zhaw.thin.state.Step.L;
+import static ch.zhaw.thin.state.Step.R;
 
 /**
  * @author Arik, Simon
  */
 public class TuringMachine {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TuringMachine.class);
+
     private final StateIndex stateIndex = new StateIndex(StateTable.MULTIPLY);
 
     private final Band band;
-    private final boolean stepMode;
     private final Console console;
 
     private int stepCount = 1;
 
-    public TuringMachine(Band band) {
-        this(band, false, null);
-    }
-
-    public TuringMachine(Band band, boolean stepMode) {
-        this(band, stepMode, null);
-    }
-
-    public TuringMachine(Band band, boolean stepMode, Console console) {
+    public TuringMachine(Band band, Console console) {
         this.band = band;
-        this.stepMode = stepMode;
         this.console = console;
     }
 
     /**
-     * @return result
+     * @return raw result
      */
     public String run() {
         int next = 0;
@@ -44,13 +40,8 @@ public class TuringMachine {
         while (!finished) {
 
             char current = band.getCurrentPosition();
-            State state = stateIndex.get(next, shouldRead(current));
-
-
-            if (stepMode) {
-                printStep();
-                console.waitForInput();
-            }
+            State state = getState(next, current);
+            printStep();
 
             moveHead(state);
 
@@ -65,8 +56,12 @@ public class TuringMachine {
         return band.toRawString();
     }
 
+    private State getState(int id, char currentSymbol) {
+        return stateIndex.get(id, shouldRead(currentSymbol));
+    }
+
     private boolean shouldRead(char current) {
-        return current == '*';
+        return current == BandSymbol.star();
     }
 
     private void moveHead(State state) {
@@ -95,12 +90,15 @@ public class TuringMachine {
     }
 
     private void printStep() {
-        System.out.println(band.toString());
+        LOG.debug("{}", band);
+        if (LOG.isTraceEnabled()) {
+            console.waitForInput();
+        }
     }
 
     private void printResult(State state, int cnt) {
-        System.out.println(band.toString());
-        System.out.println("Stopped at state: " + state.getId());
-        System.out.println("Calculated after " + cnt + " steps");
+        LOG.info("{}", band);
+        LOG.info("Stopped at state: {}", state.getId());
+        LOG.info("Calculated after {} steps", cnt);
     }
 }

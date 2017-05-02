@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author Simon Anliker
+ * @author Arik, Simon
  */
 public class StateIndexTest {
 
