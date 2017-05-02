@@ -18,6 +18,8 @@ public class TuringMachine {
     private final boolean stepMode;
     private final Console console;
 
+    private int stepCount = 1;
+
     public TuringMachine(Band band) {
         this(band, false, null);
     }
@@ -38,7 +40,6 @@ public class TuringMachine {
     public String run() {
         int next = 0;
         boolean finished = false;
-        int cnt = 1;
         while (!finished) {
 
             char current = band.getCurrentPosition();
@@ -54,11 +55,11 @@ public class TuringMachine {
 
             if (state.isEndState()) {
                 finished = true;
-                printResult(state, cnt);
+                printResult(state, stepCount);
+            } else {
+                next = state.getNextState();
+                stepCount++;
             }
-
-            next = state.getNextState();
-            cnt++;
         }
         return band.toRawString();
     }
@@ -86,6 +87,10 @@ public class TuringMachine {
         } else if (step == L) {
             band.moveLeft();
         }
+    }
+
+    public int getStepCount() {
+        return stepCount;
     }
 
     private void printStep() {
