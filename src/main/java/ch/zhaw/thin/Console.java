@@ -22,6 +22,10 @@ public class Console {
 
         // read band content
         String input = console.readBand();
+        String[] splittedInput = input.split(" ");
+        if (console.isInteger(splittedInput[0]) && console.isInteger(splittedInput[1])) {
+            input = console.BuildBandBasedOnNumbers(splittedInput[0], splittedInput[1]);
+        }
 
         // set run or step mode
         boolean stepMode = console.readIsStepMode();
@@ -57,6 +61,27 @@ public class Console {
     private boolean readIsVerboseMode() {
         writer.printf("%s", "Verbose mode [y/n]?: ");
         return "y".equals(scanner.nextLine());
+    }
+
+    private String BuildBandBasedOnNumbers(String one, String two) {
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < Integer.parseInt(one); i++) {
+            builder.append("*");
+        }
+        builder.append(" ");
+        for(int i = 0; i < Integer.parseInt(two); i++) {
+            builder.append("*");
+        }
+        return builder.toString();
+    }
+
+    private boolean isInteger(String stringToCheck) {
+        try {
+            Integer.parseInt(stringToCheck);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 
     private void close() {
