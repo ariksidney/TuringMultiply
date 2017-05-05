@@ -46,4 +46,13 @@ public class TuringMachineTest {
         assertEquals("Calc wrong for 1*0", "", result);
         assertEquals("Step count has changed", 5, tm.getStepCount());
     }
+
+    @Test
+    public void multiplyByOne() {
+        Band band = new Band(stars(1, 1));
+        TuringMachine tm = new TuringMachine(band, CONSOLE);
+        String result = tm.run();
+        assertEquals("Calc wrong for 1*1", stars(1 * 1), result);
+        assertEquals("Step count has changed", 12, tm.getStepCount());
+    }
 }
