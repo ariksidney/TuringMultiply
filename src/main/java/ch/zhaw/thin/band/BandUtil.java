@@ -25,6 +25,10 @@ public class BandUtil {
         return build(count, BandSymbol.space());
     }
 
+    public static String useEmptySpace(String input) {
+        return input.replace(BandSymbol.space(), ' ');
+    }
+
     private static String build(int count1, int count2, char symbol, char delimiter) {
         return build(count1, symbol) + delimiter + build(count2, symbol);
     }

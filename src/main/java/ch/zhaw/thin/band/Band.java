@@ -47,13 +47,17 @@ public class Band {
     }
 
     public String toRawString() {
-        return String.copyValueOf(charList.toArray()).trim();
+        return useEmptySpace(toBandString()).trim();
+    }
+
+    public String toBandString() {
+        return String.copyValueOf(charList.toArray());
     }
 
     @Override
     public String toString() {
-        String result = toRawString();
         String readerHead = head(pointer);
-        return SPACES + result + SPACES + " (" + result.length() + ")\n" + SPACES + readerHead;
+        return SPACES + toBandString() + SPACES + " (" + toRawString().length() + ")\n" + SPACES + readerHead;
     }
+
 }

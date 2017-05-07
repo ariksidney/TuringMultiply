@@ -28,7 +28,6 @@ public class TuringMachineTest {
         assertEquals("Step count has changed", 261, tm.getStepCount());
     }
 
-
     @Test
     public void multiply13Times27() {
         Band band = new Band(stars(13, 27));

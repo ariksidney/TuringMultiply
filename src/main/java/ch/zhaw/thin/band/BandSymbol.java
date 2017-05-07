@@ -5,7 +5,7 @@ package ch.zhaw.thin.band;
  */
 public enum BandSymbol {
 
-    SPACE(' '),
+    SPACE('\u00A0'),
     STAR('*'),
     HEAD('^');
 
