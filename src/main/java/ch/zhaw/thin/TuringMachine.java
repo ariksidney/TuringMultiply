@@ -41,7 +41,7 @@ public class TuringMachine {
 
             char current = band.getCurrentPosition();
             State state = getState(next, current);
-            printStep();
+            printStep(state.getId());
 
             moveHead(state);
 
@@ -89,15 +89,15 @@ public class TuringMachine {
         return stepCount;
     }
 
-    private void printStep() {
-        LOG.debug("{}", band);
+    private void printStep(int stateId) {
+        LOG.debug("{} S{}", band, stateId);
         if (LOG.isTraceEnabled()) {
             console.waitForInput();
         }
     }
 
     private void printResult(State state, int cnt) {
-        LOG.info("{}", band);
+        LOG.info("{} S{}", band, state.getId());
         LOG.info("Stopped at state: {}", state.getId());
         LOG.info("Calculated after {} steps", cnt);
     }

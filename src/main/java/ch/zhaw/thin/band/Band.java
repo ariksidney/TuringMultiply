@@ -56,8 +56,9 @@ public class Band {
 
     @Override
     public String toString() {
-        String readerHead = head(pointer);
-        return SPACES + toBandString() + SPACES + " (" + toRawString().length() + ")\n" + SPACES + readerHead;
+        String result = toBandString();
+        String readerHead = head(pointer, result.length()-pointer);
+        return SPACES + result + SPACES + " (" + toRawString().length() + ")\n" + SPACES + readerHead + SPACES;
     }
 
 }

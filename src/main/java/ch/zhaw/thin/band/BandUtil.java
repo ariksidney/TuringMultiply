@@ -17,8 +17,8 @@ public class BandUtil {
         return build(count, BandSymbol.star());
     }
 
-    public static String head(int spacesBefore) {
-        return spaces(spacesBefore) + BandSymbol.head();
+    public static String head(int spacesBefore, int spacesAfter) {
+        return spaces(spacesBefore) + BandSymbol.head() + spaces(spacesAfter);
     }
 
     public static String spaces(int count) {
